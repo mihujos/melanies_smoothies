@@ -1,6 +1,6 @@
 # Import python packages
 import streamlit as st
-from snowflake.snowpark.context import get_active_session
+# from snowflake.snowpark.context import get_active_session
 from snowflake.snowpark.functions import col, when_matched
 
 
@@ -14,7 +14,9 @@ st.write(
 name_on_order = st.text_input("Name on Smoothie:")
 st.write("The name on your Smoothie will be:", name_on_order)
 
-session = get_active_session()
+# session = get_active_session()
+cnx = st.connection('snowflake')
+session = cnx.session()
 my_dataframe = session.table("smoothies.public.fruit_options").select(col('Fruit_name'))
 # st.dataframe(data=my_dataframe, use_container_width=True)
 
@@ -27,8 +29,6 @@ ingredients_list = st.multiselect(
 # st.write("You selected:", options)
 
 if ingredients_list: 
-    # st.write(ingredients_list)
-    # st.text(ingredients_list)
     ingredients_string = ''
     
     for fruit_chosen in ingredients_list:  
